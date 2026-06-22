@@ -133,6 +133,23 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
         </div>
       )}
 
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-wider text-neutral-400 flex items-center gap-2 mb-3">
+              สีกรอบนอก
+            </label>
+            <div className="flex gap-2">
+              {FRAME_STYLES.map(frame => (
+                <button
+                  key={frame.id}
+                  onClick={() => handleFrameChange(frame.id)}
+                  className={`flex-1 py-2 px-3 text-xs rounded-xl border text-center transition ${config.frameStyleId === frame.id ? 'border-indigo-500 bg-indigo-500/10 text-white' : 'border-neutral-800 bg-neutral-900 text-neutral-400 hover:border-neutral-700'}`}
+                >
+                  {frame.name}
+                </button>
+              ))}
+            </div>
+          </div>
+
       {/* Upload & Alignment Area */}
       {activeSlotId && (
         <div className="border-t border-neutral-800 pt-6 space-y-4">

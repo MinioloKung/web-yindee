@@ -243,8 +243,25 @@ export default function FrameCanvas({
         });
 
         // 4. Draw Template Overlay (if active and exists)
-        if (config.mode === 'template' && loadedTemplateImage) {
-          ctx.drawImage(loadedTemplateImage, matX, matY, matWidth, matHeight);
+        if (config.mode === 'template') {
+          if (loadedTemplateImage) {
+            ctx.drawImage(loadedTemplateImage, matX, matY, matWidth, matHeight);
+          } else {
+            // Draw procedural fallback card frame overlay
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+            ctx.fillRect(matX, matY, matWidth, matHeight);
+            
+            // Draw a thin border and placeholder text for the template name
+            ctx.strokeStyle = '#d4d4d4';
+            ctx.lineWidth = 2 * scaleFactor;
+            ctx.strokeRect(matX + 10 * scaleFactor, matY + 10 * scaleFactor, matWidth - 20 * scaleFactor, matHeight - 20 * scaleFactor);
+            
+            ctx.fillStyle = '#737373';
+            ctx.font = `${16 * scaleFactor}px Inter, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(`[เทมเพลต: ${activeTemplate.name}]`, matX + matWidth / 2, matY + matHeight - 40 * scaleFactor);
+          }
         }
       }
     );

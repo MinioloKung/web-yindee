@@ -271,6 +271,7 @@ export default function FrameCanvas({
     if (!canvas) return;
 
     const rect = canvas.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return;
     const clientX = 'touches' in e ? e.touches[0]?.clientX : e.clientX;
     const clientY = 'touches' in e ? e.touches[0]?.clientY : e.clientY;
 
@@ -340,6 +341,7 @@ export default function FrameCanvas({
     const deltaY = clientY - dragStart.y;
 
     const rect = canvas.getBoundingClientRect();
+    if (rect.width === 0) return;
     const scale = 800 / rect.width;
     const deltaCanvasX = deltaX * scale;
     const deltaCanvasY = deltaY * scale;
@@ -347,8 +349,8 @@ export default function FrameCanvas({
     const currentImage = config.images[activeSlotId];
     if (currentImage && onImageStateChange) {
       onImageStateChange(activeSlotId, {
-        x: currentImage.x + deltaCanvasX,
-        y: currentImage.y + deltaCanvasY,
+        x: (currentImage.x ?? 0) + deltaCanvasX,
+        y: (currentImage.y ?? 0) + deltaCanvasY,
       });
     }
 

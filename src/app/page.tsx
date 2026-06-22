@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import FrameCanvas from '../components/FrameCanvas';
 import ControlPanel from '../components/ControlPanel';
 import ExportModal from '../components/ExportModal';
@@ -8,7 +8,7 @@ import { FrameConfig, ImageState } from '../types/frame';
 import { FRAME_STYLES, MAT_COLORS } from '../constants/presets';
 
 export default function Home() {
-  const [config, setConfig] = useState<FrameConfig>({
+  const [config, rawSetConfig] = useState<FrameConfig>({
     mode: 'custom',
     orientation: 'portrait',
     frameStyleId: 'black',
@@ -18,14 +18,35 @@ export default function Home() {
     images: {}
   });
 
+  // Custom setConfig wrapper to force portrait orientation in template mode
+  const setConfig: React.Dispatch<React.SetStateAction<FrameConfig>> = (value) => {
+    rawSetConfig(prev => {
+      const resolved = typeof value === 'function' ? (value as (p: FrameConfig) => FrameConfig)(prev) : value;
+      if (resolved.mode === 'template' && resolved.orientation !== 'portrait') {
+        return {
+          ...resolved,
+          orientation: 'portrait'
+        };
+      }
+      return resolved;
+    });
+  };
+
   const [activeSlotId, setActiveSlotId] = useState<string | null>(null);
   const [exportImg, setExportImg] = useState<string>('');
   const [isExportOpen, setIsExportOpen] = useState<boolean>(false);
+  const [exportConfig, setExportConfig] = useState<FrameConfig | null>(null);
 
   const activeFrame = FRAME_STYLES.find(f => f.id === config.frameStyleId) || FRAME_STYLES[0];
   const activeMat = MAT_COLORS.find(m => m.id === config.matColorId) || MAT_COLORS[0];
 
   const handleUploadImage = (slotId: string, file: File) => {
+    // Revoke previous object URL to prevent memory leaks
+    const prevUrl = config.images[slotId]?.imageUrl;
+    if (prevUrl) {
+      URL.revokeObjectURL(prevUrl);
+    }
+
     const imageUrl = URL.createObjectURL(file);
     setConfig(prev => ({
       ...prev,
@@ -42,6 +63,24 @@ export default function Home() {
       }
     }));
   };
+
+  // Keep config in a ref to safely reference the latest state during unmount cleanup
+  const configRef = useRef(config);
+  useEffect(() => {
+    configRef.current = config;
+  }, [config]);
+
+  // Clean up all Object URLs on unmount to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      const currentImages = configRef.current.images;
+      Object.values(currentImages).forEach((img) => {
+        if (img.imageUrl) {
+          URL.revokeObjectURL(img.imageUrl);
+        }
+      });
+    };
+  }, []);
 
   const handleImageStateChange = (slotId: string, updates: Partial<ImageState>) => {
     setConfig(prev => {
@@ -61,19 +100,30 @@ export default function Home() {
   };
 
   const triggerExport = () => {
-    // Find hidden high-res canvas
-    const canvas = document.getElementById('high-res-canvas') as HTMLCanvasElement;
-    if (!canvas) return;
-    const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
-    
-    // Auto-download image file
-    const link = document.createElement('a');
-    link.download = `yindee-frame-4x6-${Date.now()}.jpg`;
-    link.href = dataUrl;
-    link.click();
+    // Set config for high-res export and allow React to mount the canvas
+    setExportConfig(config);
 
-    setExportImg(dataUrl);
-    setIsExportOpen(true);
+    setTimeout(() => {
+      // Find hidden high-res canvas
+      const canvas = document.getElementById('high-res-canvas') as HTMLCanvasElement;
+      if (!canvas) {
+        setExportConfig(null);
+        return;
+      }
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+      
+      // Auto-download image file
+      const link = document.createElement('a');
+      link.download = `yindee-frame-4x6-${Date.now()}.jpg`;
+      link.href = dataUrl;
+      link.click();
+
+      setExportImg(dataUrl);
+      setIsExportOpen(true);
+      
+      // Reset exportConfig to unmount hidden canvas and reclaim memory
+      setExportConfig(null);
+    }, 250);
   };
 
   return (
@@ -95,12 +145,14 @@ export default function Home() {
             >
               แนวตั้ง (4x6&quot;)
             </button>
-            <button
-              onClick={() => setConfig(prev => ({ ...prev, orientation: 'landscape' }))}
-              className={`py-1.5 px-4 text-xs font-semibold rounded-lg transition ${config.orientation === 'landscape' ? 'bg-neutral-800 text-white border border-neutral-700' : 'text-neutral-500 hover:text-neutral-300'}`}
-            >
-              แนวนอน (6x4&quot;)
-            </button>
+            {config.mode !== 'template' && (
+              <button
+                onClick={() => setConfig(prev => ({ ...prev, orientation: 'landscape' }))}
+                className={`py-1.5 px-4 text-xs font-semibold rounded-lg transition ${config.orientation === 'landscape' ? 'bg-neutral-800 text-white border border-neutral-700' : 'text-neutral-500 hover:text-neutral-300'}`}
+              >
+                แนวนอน (6x4&quot;)
+              </button>
+            )}
           </div>
 
           {/* Visible Canvas Preview */}
@@ -112,16 +164,18 @@ export default function Home() {
             onImageStateChange={handleImageStateChange}
           />
 
-          {/* Hidden Canvas for High-Resolution Export */}
-          <div style={{ display: 'none' }}>
-            <FrameCanvas
-              id="high-res-canvas"
-              config={config}
-              activeSlotId={null}
-              setActiveSlotId={() => {}}
-              highResExport={true}
-            />
-          </div>
+          {/* Hidden Canvas for High-Resolution Export - mounted only during export */}
+          {exportConfig && (
+            <div style={{ display: 'none' }}>
+              <FrameCanvas
+                id="high-res-canvas"
+                config={exportConfig}
+                activeSlotId={null}
+                setActiveSlotId={() => {}}
+                highResExport={true}
+              />
+            </div>
+          )}
 
           <button
             onClick={triggerExport}

@@ -361,7 +361,7 @@ export default function FrameCanvas({
 
     const rect = canvas.getBoundingClientRect();
     if (rect.width === 0) return;
-    const scale = 800 / rect.width;
+    const scale = canvas.width / rect.width;
     const deltaCanvasX = deltaX * scale;
     const deltaCanvasY = deltaY * scale;
 

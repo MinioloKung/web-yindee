@@ -23,8 +23,18 @@ export default function ExportModal({ isOpen, onClose, imageSrc, config, frameNa
 (ได้อัปโหลดไฟล์ดีไซน์ที่แนบมานี้ด้วยครับ)`;
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(orderText);
-    alert('คัดลอกข้อความสรุปดีไซน์เรียบร้อยแล้ว!');
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(orderText);
+      alert('คัดลอกข้อความสรุปดีไซน์เรียบร้อยแล้ว!');
+    } else {
+      const textArea = document.createElement('textarea');
+      textArea.value = orderText;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      alert('คัดลอกข้อความสรุปดีไซน์เรียบร้อยแล้ว!');
+    }
   };
 
   return (

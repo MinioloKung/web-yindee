@@ -10,6 +10,7 @@ interface FrameCanvasProps {
   setActiveSlotId: (id: string | null) => void;
   highResExport?: boolean;
   onImageStateChange?: (slotId: string, updates: Partial<ImageState>) => void;
+  id?: string;
 }
 
 export default function FrameCanvas({
@@ -18,6 +19,7 @@ export default function FrameCanvas({
   setActiveSlotId,
   highResExport = false,
   onImageStateChange,
+  id,
 }: FrameCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageCacheRef = useRef<Record<string, HTMLImageElement>>({});
@@ -385,6 +387,7 @@ export default function FrameCanvas({
   return (
     <div className={`relative w-full ${aspectClass} max-w-[400px] shadow-2xl rounded-lg overflow-hidden border border-neutral-800`}>
       <canvas
+        id={id}
         ref={canvasRef}
         onMouseDown={handleStartDrag}
         onMouseMove={handleDrag}

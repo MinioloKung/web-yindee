@@ -6,7 +6,7 @@ export default function Home() {
       <header className="border-b border-neutral-800 p-4 bg-neutral-900/50 backdrop-blur">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <h1 className="text-xl font-bold tracking-tight">Yindee Frame Customizer</h1>
-          <span className="text-xs bg-neutral-800 px-3 py-1 rounded-full text-neutral-400">4x6" Edition</span>
+          <span className="text-xs bg-neutral-800 px-3 py-1 rounded-full text-neutral-400">4x6&quot; Edition</span>
         </div>
       </header>
       <div className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">

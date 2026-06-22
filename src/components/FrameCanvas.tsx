@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
-import { FrameConfig } from '../types/frame';
+import React, { useRef, useEffect, useState } from 'react';
+import { FrameConfig, ImageState } from '../types/frame';
 import { FRAME_STYLES, MAT_COLORS, LAYOUT_PATTERNS, PRESET_TEMPLATES } from '../constants/presets';
 
 interface FrameCanvasProps {
@@ -9,6 +9,7 @@ interface FrameCanvasProps {
   activeSlotId: string | null;
   setActiveSlotId: (id: string | null) => void;
   highResExport?: boolean;
+  onImageStateChange?: (slotId: string, updates: Partial<ImageState>) => void;
 }
 
 export default function FrameCanvas({
@@ -16,9 +17,32 @@ export default function FrameCanvas({
   activeSlotId,
   setActiveSlotId,
   highResExport = false,
+  onImageStateChange,
 }: FrameCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageCacheRef = useRef<Record<string, HTMLImageElement>>({});
+
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState<{ x: number; y: number } | null>(null);
+
+  // Prevent default scrolling on touch devices when dragging
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const handleTouchMoveRaw = (e: TouchEvent) => {
+      if (isDragging) {
+        if (e.cancelable) {
+          e.preventDefault();
+        }
+      }
+    };
+
+    canvas.addEventListener('touchmove', handleTouchMoveRaw, { passive: false });
+    return () => {
+      canvas.removeEventListener('touchmove', handleTouchMoveRaw);
+    };
+  }, [isDragging]);
 
   // Get active presets
   const activeFrame = FRAME_STYLES.find((f) => f.id === config.frameStyleId) || FRAME_STYLES[0];
@@ -239,21 +263,25 @@ export default function FrameCanvas({
     slotsToDraw,
   ]);
 
-  // Click handler to identify which slot was clicked
-  const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  // Start drag handler
+  const handleStartDrag = (
+    e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
+  ) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const rect = canvas.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const clickY = e.clientY - rect.top;
+    const clientX = 'touches' in e ? e.touches[0]?.clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0]?.clientY : e.clientY;
+
+    if (clientX === undefined || clientY === undefined) return;
 
     // Scale display coords to internal canvas size
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
 
-    const canvasX = clickX * scaleX;
-    const canvasY = clickY * scaleY;
+    const canvasX = (clientX - rect.left) * scaleX;
+    const canvasY = (clientY - rect.top) * scaleY;
 
     const baseWidth = highResExport ? 2400 : 800;
     const baseHeight = highResExport ? 3600 : 1200;
@@ -286,6 +314,51 @@ export default function FrameCanvas({
     }
 
     setActiveSlotId(clickedSlotId);
+
+    // If clicked slot has an uploaded image, begin tracking drag
+    if (clickedSlotId && config.images[clickedSlotId]?.imageUrl) {
+      setDragStart({ x: clientX, y: clientY });
+      setIsDragging(true);
+    }
+  };
+
+  // Drag handler
+  const handleDrag = (
+    e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
+  ) => {
+    if (!isDragging || !activeSlotId || !dragStart) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const clientX = 'touches' in e ? e.touches[0]?.clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0]?.clientY : e.clientY;
+
+    if (clientX === undefined || clientY === undefined) return;
+
+    const deltaX = clientX - dragStart.x;
+    const deltaY = clientY - dragStart.y;
+
+    const rect = canvas.getBoundingClientRect();
+    const scale = 800 / rect.width;
+    const deltaCanvasX = deltaX * scale;
+    const deltaCanvasY = deltaY * scale;
+
+    const currentImage = config.images[activeSlotId];
+    if (currentImage && onImageStateChange) {
+      onImageStateChange(activeSlotId, {
+        x: currentImage.x + deltaCanvasX,
+        y: currentImage.y + deltaCanvasY,
+      });
+    }
+
+    setDragStart({ x: clientX, y: clientY });
+  };
+
+  // End drag handler
+  const handleEndDrag = () => {
+    setIsDragging(false);
+    setDragStart(null);
   };
 
   const aspectClass = config.orientation === 'portrait' ? 'aspect-[2/3]' : 'aspect-[3/2]';
@@ -294,8 +367,16 @@ export default function FrameCanvas({
     <div className={`relative w-full ${aspectClass} max-w-[400px] shadow-2xl rounded-lg overflow-hidden border border-neutral-800`}>
       <canvas
         ref={canvasRef}
-        onClick={handleCanvasClick}
+        onMouseDown={handleStartDrag}
+        onMouseMove={handleDrag}
+        onMouseUp={handleEndDrag}
+        onMouseLeave={handleEndDrag}
+        onTouchStart={handleStartDrag}
+        onTouchMove={handleDrag}
+        onTouchEnd={handleEndDrag}
+        onTouchCancel={handleEndDrag}
         className="w-full h-full object-contain cursor-crosshair"
+        style={{ touchAction: isDragging ? 'none' : 'auto' }}
       />
     </div>
   );

@@ -53,7 +53,7 @@ export const PRESET_TEMPLATES: PresetTemplate[] = [
   {
     id: 'temp-polaroid',
     name: 'โพลารอยด์วินเทจ',
-    imageUrl: '/templates/polaroid.png',
+    imageUrl: '/templates/polaroid.svg',
     slots: [
       { id: 'slot-1', x: 12, y: 12, width: 76, height: 60 }
     ]
@@ -61,7 +61,7 @@ export const PRESET_TEMPLATES: PresetTemplate[] = [
   {
     id: 'temp-love',
     name: 'สื่อรักหัวใจคู่',
-    imageUrl: '/templates/love-double.png',
+    imageUrl: '/templates/love-double.svg',
     slots: [
       { id: 'slot-1', x: 10, y: 20, width: 38, height: 55 },
       { id: 'slot-2', x: 52, y: 20, width: 38, height: 55 }

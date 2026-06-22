@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 672 1072" width="672" height="1072">
+  <defs>
+    <!-- Soft Drop Shadow Filter for Cutout -->
+    <filter id="shadow-blur" x="-10%" y="-10%" width="120%" height="120%">
+      <feOffset dx="1" dy="3" />
+      <feGaussianBlur stdDeviation="4" />
+    </filter>
+  </defs>
+  
+  <!-- Polaroid Card Background with Cutout -->
+  <path d="M 0,0 L 672,0 L 672,1072 L 0,1072 Z M 80.64,128.64 L 80.64,771.84 L 591.36,771.84 L 591.36,128.64 Z" fill="#fcfbf9" fill-rule="evenodd" />
+
+  <!-- Crisp cut edge -->
+  <rect x="80.64" y="128.64" width="510.72" height="643.2" fill="none" stroke="#e7e5e4" stroke-width="1.5" />
+
+  <!-- Soft drop shadow inside the cutout -->
+  <rect x="80.64" y="128.64" width="510.72" height="643.2" fill="none" stroke="#000000" stroke-width="4" opacity="0.18" filter="url(#shadow-blur)" />
+
+  <!-- Retro Cursive Caption -->
+  <text x="336" y="905" text-anchor="middle" font-family="'Caveat', 'Dancing Script', 'Brush Script MT', 'Snell Roundhand', cursive" font-size="68" fill="#4b5563" font-weight="bold">Memories</text>
+  
+  <!-- Subtle handwritten date/subtext -->
+  <text x="336" y="965" text-anchor="middle" font-family="'Inter', 'Arial', sans-serif" font-size="18" fill="#a8a29e" letter-spacing="4">2026 . 06 . 23</text>
+</svg>

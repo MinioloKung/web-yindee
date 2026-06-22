@@ -32,6 +32,8 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
   };
 
   const activeImageState = activeSlotId ? config.images[activeSlotId] : null;
+  const scale = activeImageState?.scale ?? 1.0;
+  const rotation = activeImageState?.rotation ?? 0;
 
   return (
     <div className="space-y-6">
@@ -149,6 +151,7 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
                 onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (file) onUploadImage(activeSlotId, file);
+                  e.target.value = '';
                 }}
               />
             </label>
@@ -160,14 +163,14 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
               <div className="space-y-2">
                 <div className="flex justify-between text-xs text-neutral-400">
                   <span className="flex items-center gap-1"><ZoomIn size={12} /> ขนาดภาพ (ซูม)</span>
-                  <span>{Math.round(activeImageState.scale * 100)}%</span>
+                  <span>{Math.round(scale * 100)}%</span>
                 </div>
                 <input
                   type="range"
                   min="0.5"
                   max="3"
                   step="0.05"
-                  value={activeImageState.scale}
+                  value={scale}
                   onChange={(e) => handleSliderChange('scale', parseFloat(e.target.value))}
                   className="w-full h-1 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
                 />
@@ -177,14 +180,14 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
               <div className="space-y-2">
                 <div className="flex justify-between text-xs text-neutral-400">
                   <span className="flex items-center gap-1"><RotateCw size={12} /> มุมหมุนภาพ</span>
-                  <span>{activeImageState.rotation}°</span>
+                  <span>{rotation}°</span>
                 </div>
                 <input
                   type="range"
                   min="0"
                   max="360"
                   step="1"
-                  value={activeImageState.rotation}
+                  value={rotation}
                   onChange={(e) => handleSliderChange('rotation', parseInt(e.target.value))}
                   className="w-full h-1 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
                 />

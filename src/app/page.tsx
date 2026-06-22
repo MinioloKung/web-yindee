@@ -5,7 +5,7 @@ import FrameCanvas from '../components/FrameCanvas';
 import ControlPanel from '../components/ControlPanel';
 import ExportModal from '../components/ExportModal';
 import { FrameConfig, ImageState } from '../types/frame';
-import { FRAME_STYLES, MAT_COLORS } from '../constants/presets';
+import { FRAME_STYLES, MAT_COLORS, PRESET_TEMPLATES } from '../constants/presets';
 
 export default function Home() {
   const [config, rawSetConfig] = useState<FrameConfig>({
@@ -14,7 +14,7 @@ export default function Home() {
     frameStyleId: 'black',
     matColorId: 'off-white',
     layoutId: 'single',
-    templateId: 'temp-polaroid',
+    templateId: PRESET_TEMPLATES[0]?.id || 'temp-polaroid',
     images: {}
   });
 

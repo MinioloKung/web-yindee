@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useEffect } from 'react';
-import { FrameConfig, LayoutSlot, FrameStyle, MatColor } from '../types/frame';
+import { FrameConfig } from '../types/frame';
 import { FRAME_STYLES, MAT_COLORS, LAYOUT_PATTERNS, PRESET_TEMPLATES } from '../constants/presets';
 
 interface FrameCanvasProps {
@@ -18,6 +18,7 @@ export default function FrameCanvas({
   highResExport = false,
 }: FrameCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const imageCacheRef = useRef<Record<string, HTMLImageElement>>({});
 
   // Get active presets
   const activeFrame = FRAME_STYLES.find((f) => f.id === config.frameStyleId) || FRAME_STYLES[0];
@@ -42,37 +43,51 @@ export default function FrameCanvas({
     const width = config.orientation === 'portrait' ? baseWidth : baseHeight;
     const height = config.orientation === 'portrait' ? baseHeight : baseWidth;
 
-    // Load slot images asynchronously
+    const scaleFactor = width / 800;
+
+    // Load slot images asynchronously with caching
     const slotImagePromises = slotsToDraw.map((slot) => {
       const imgState = config.images[slot.id];
       if (imgState && imgState.imageUrl) {
+        const url = imgState.imageUrl;
+        if (imageCacheRef.current[url]) {
+          return Promise.resolve({ id: slot.id, img: imageCacheRef.current[url] });
+        }
         return new Promise<{ id: string; img: HTMLImageElement } | null>((resolve) => {
           const img = new Image();
           img.onload = () => {
+            imageCacheRef.current[url] = img;
             resolve({ id: slot.id, img });
           };
           img.onerror = () => {
             resolve(null);
           };
-          img.src = imgState.imageUrl;
+          img.src = url;
         });
       }
       return Promise.resolve(null);
     });
 
-    // Load template overlay image asynchronously if in template mode
+    // Load template overlay image asynchronously if in template mode with caching
     const templateImagePromise =
       config.mode === 'template' && activeTemplate && activeTemplate.imageUrl
-        ? new Promise<HTMLImageElement | null>((resolve) => {
-            const img = new Image();
-            img.onload = () => {
-              resolve(img);
-            };
-            img.onerror = () => {
-              resolve(null);
-            };
-            img.src = activeTemplate.imageUrl;
-          })
+        ? (() => {
+            const url = activeTemplate.imageUrl;
+            if (imageCacheRef.current[url]) {
+              return Promise.resolve(imageCacheRef.current[url]);
+            }
+            return new Promise<HTMLImageElement | null>((resolve) => {
+              const img = new Image();
+              img.onload = () => {
+                imageCacheRef.current[url] = img;
+                resolve(img);
+              };
+              img.onerror = () => {
+                resolve(null);
+              };
+              img.src = url;
+            });
+          })()
         : Promise.resolve(null);
 
     Promise.all([Promise.all(slotImagePromises), templateImagePromise]).then(
@@ -102,8 +117,8 @@ export default function FrameCanvas({
         // Wood texture overlay simulator
         if (activeFrame.woodTexture) {
           ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-          for (let i = 0; i < height; i += 4) {
-            ctx.fillRect(0, i, width, 2);
+          for (let i = 0; i < height; i += 4 * scaleFactor) {
+            ctx.fillRect(0, i, width, 2 * scaleFactor);
           }
         }
 
@@ -141,7 +156,7 @@ export default function FrameCanvas({
 
             // Bevel Inner White Cut around photo
             ctx.strokeStyle = '#ffffff';
-            ctx.lineWidth = highResExport ? 6 : 2;
+            ctx.lineWidth = 2 * scaleFactor;
             ctx.strokeRect(slotX, slotY, slotW, slotH);
 
             // Apply clipping path to crop image inside slot
@@ -150,14 +165,15 @@ export default function FrameCanvas({
             ctx.clip();
 
             ctx.translate(
-              slotX + slotW / 2 + imgState.x * (highResExport ? 3 : 1),
-              slotY + slotH / 2 + imgState.y * (highResExport ? 3 : 1)
+              slotX + slotW / 2 + imgState.x * scaleFactor,
+              slotY + slotH / 2 + imgState.y * scaleFactor
             );
             ctx.rotate((imgState.rotation * Math.PI) / 180);
 
-            // Calculate scale retaining ratio
-            const scaleWidth = slotW * imgState.scale;
-            const scaleHeight = (img.height / img.width) * scaleWidth;
+            // Calculate scale retaining ratio (object-fit: cover)
+            const baseScale = Math.max(slotW / img.width, slotH / img.height);
+            const scaleWidth = img.width * baseScale * imgState.scale;
+            const scaleHeight = img.height * baseScale * imgState.scale;
 
             ctx.drawImage(img, -scaleWidth / 2, -scaleHeight / 2, scaleWidth, scaleHeight);
 
@@ -168,9 +184,9 @@ export default function FrameCanvas({
             ctx.rect(slotX, slotY, slotW, slotH);
             ctx.clip();
             ctx.shadowColor = 'rgba(0,0,0,0.3)';
-            ctx.shadowBlur = highResExport ? 20 : 6;
+            ctx.shadowBlur = 6 * scaleFactor;
             ctx.strokeStyle = 'rgba(0,0,0,0.5)';
-            ctx.lineWidth = 4;
+            ctx.lineWidth = 4 * scaleFactor;
             ctx.strokeRect(slotX, slotY, slotW, slotH);
             ctx.restore();
           } else {
@@ -180,12 +196,12 @@ export default function FrameCanvas({
 
             // Bevel White Inner Cut
             ctx.strokeStyle = '#d4d4d4';
-            ctx.lineWidth = 1;
+            ctx.lineWidth = 1 * scaleFactor;
             ctx.strokeRect(slotX, slotY, slotW, slotH);
 
             // Draw placeholder plus icon text
             ctx.fillStyle = '#737373';
-            ctx.font = `${highResExport ? 48 : 16}px Inter, sans-serif`;
+            ctx.font = `${16 * scaleFactor}px Inter, sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText('คลิกอัปโหลดรูปภาพ', slotX + slotW / 2, slotY + slotH / 2);
@@ -195,8 +211,8 @@ export default function FrameCanvas({
           if (slot.id === activeSlotId) {
             ctx.save();
             ctx.strokeStyle = '#3b82f6'; // Premium primary blue highlight
-            ctx.lineWidth = highResExport ? 8 : 3;
-            ctx.setLineDash(highResExport ? [16, 8] : [8, 4]);
+            ctx.lineWidth = 3 * scaleFactor;
+            ctx.setLineDash([8 * scaleFactor, 4 * scaleFactor]);
             ctx.strokeRect(slotX - 1, slotY - 1, slotW + 2, slotH + 2);
             ctx.restore();
           }

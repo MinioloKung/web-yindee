@@ -8,6 +8,7 @@ import { FrameConfig, ImageState } from '../types/frame';
 import { FRAME_STYLES, MAT_COLORS, PRESET_TEMPLATES } from '../constants/presets';
 
 export default function Home() {
+  const [view, setView] = useState<'home' | 'customize'>('home');
   const [config, rawSetConfig] = useState<FrameConfig>({
     mode: 'custom',
     orientation: 'portrait',
@@ -127,74 +128,227 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-neutral-950 text-white flex flex-col">
-      <header className="border-b border-neutral-800 p-4 bg-neutral-900/50 backdrop-blur">
+    <main className="min-h-screen bg-[#FDFBF7] text-stone-800 flex flex-col font-sans">
+      <header className="border-b border-stone-200 p-4 bg-white/80 backdrop-blur sticky top-0 z-30 shadow-sm">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-bold tracking-tight text-white">Yindee Frame Customizer</h1>
-          <span className="text-xs bg-neutral-800 px-3 py-1 rounded-full text-neutral-400">10x15 cm (4x6&quot;) Edition</span>
+          <div className="flex items-center gap-3">
+            {view === 'customize' && (
+              <button
+                onClick={() => setView('home')}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-stone-100 text-stone-700 hover:bg-stone-200 transition cursor-pointer"
+              >
+                ← กลับหน้าหลัก
+              </button>
+            )}
+            <h1 className="text-xl font-bold tracking-tight text-stone-900">Yindee Frame</h1>
+          </div>
+          <span className="text-xs bg-stone-100 px-3 py-1 rounded-full text-stone-600 font-medium">10x15 cm (4x6&quot;) Edition</span>
         </div>
       </header>
 
-      <div className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Canvas Preview Area */}
-        <div className="lg:col-span-7 flex flex-col items-center gap-4 bg-neutral-900/50 rounded-2xl border border-neutral-800 p-8">
-          <div className="flex gap-2">
+      {view === 'home' ? (
+        <div className="flex-1 max-w-7xl w-full mx-auto p-6 md:p-12 flex flex-col gap-12">
+          {/* Landing Banner */}
+          <div className="bg-gradient-to-br from-amber-50 to-orange-100/30 border border-orange-100/50 rounded-3xl p-8 md:p-12 text-center max-w-4xl mx-auto shadow-sm">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-stone-900 mb-4 tracking-tight">
+              บันทึกความทรงจำแสนอบอุ่นในกรอบรูปสุดพิเศษ
+            </h2>
+            <p className="text-stone-600 text-sm md:text-base max-w-2xl mx-auto mb-8 leading-relaxed">
+              ออกแบบกรอบรูป Yindee Frame ขนาด 10x15 ซม. (4x6 นิ้ว) ของคุณเองได้ง่ายๆ
+              เลือกสรรสไตล์และลวดลายสำเร็จรูปสุดพรีเมียม หรือเลือกจัดวางรูปภาพด้วยตัวคุณเองอย่างอิสระ
+            </p>
             <button
-              onClick={() => setConfig(prev => ({ ...prev, orientation: 'portrait' }))}
-              className={`py-1.5 px-4 text-xs font-semibold rounded-lg transition ${config.orientation === 'portrait' ? 'bg-neutral-800 text-white border border-neutral-700' : 'text-neutral-500 hover:text-neutral-300'}`}
+              onClick={() => {
+                setConfig(prev => ({
+                  ...prev,
+                  mode: 'custom',
+                  layoutId: 'single'
+                }));
+                setView('customize');
+              }}
+              className="bg-stone-800 hover:bg-stone-900 text-white font-semibold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform cursor-pointer text-sm"
             >
-              แนวตั้ง (10x15 ซม.)
+              เริ่มต้นออกแบบกรอบรูป
             </button>
-            {config.mode !== 'template' && (
-              <button
-                onClick={() => setConfig(prev => ({ ...prev, orientation: 'landscape' }))}
-                className={`py-1.5 px-4 text-xs font-semibold rounded-lg transition ${config.orientation === 'landscape' ? 'bg-neutral-800 text-white border border-neutral-700' : 'text-neutral-500 hover:text-neutral-300'}`}
-              >
-                แนวนอน (15x10 ซม.)
-              </button>
-            )}
           </div>
 
-          {/* Visible Canvas Preview */}
-          <FrameCanvas
-            config={config}
-            activeSlotId={activeSlotId}
-            setActiveSlotId={setActiveSlotId}
-            highResExport={false}
-            onImageStateChange={handleImageStateChange}
-          />
-
-          {/* Hidden Canvas for High-Resolution Export - mounted only during export */}
-          {exportConfig && (
-            <div style={{ display: 'none' }}>
-              <FrameCanvas
-                id="high-res-canvas"
-                config={exportConfig}
-                activeSlotId={null}
-                setActiveSlotId={() => {}}
-                highResExport={true}
-              />
+          {/* Catalog Grid */}
+          <div className="flex flex-col gap-8">
+            <div className="text-center">
+              <h3 className="text-xl md:text-2xl font-bold text-stone-900 mb-2">เลือกสไตล์เริ่มต้นสำหรับกรอบรูป</h3>
+              <p className="text-stone-500 text-xs md:text-sm">เลือกสรรดีไซน์สำเร็จรูปที่คุณชอบเพื่อปรับแต่งภาพถ่ายของคุณต่อ</p>
             </div>
-          )}
 
-          <button
-            onClick={triggerExport}
-            className="mt-4 w-full max-w-[400px] bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-xl transition shadow-lg shadow-indigo-600/20 cursor-pointer"
-          >
-            สรุปแบบและดาวน์โหลดรูปเพื่อสั่งซื้อ
-          </button>
-        </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto w-full">
+              {/* Cute Fabric Card */}
+              <div
+                onClick={() => {
+                  setConfig(prev => ({
+                    ...prev,
+                    mode: 'template',
+                    templateId: 'temp-cutefabric'
+                  }));
+                  setView('customize');
+                }}
+                className="group bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col h-full cursor-pointer"
+              >
+                <div className="aspect-[2/3] w-full bg-stone-50 relative flex items-center justify-center border-b border-stone-100 p-4 overflow-hidden">
+                  <img
+                    src="/templates/cute-fabric.svg"
+                    alt="Cute Fabric Design"
+                    className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <span className="absolute top-3 left-3 bg-rose-50 text-rose-700 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">
+                    Cute Fabric
+                  </span>
+                </div>
+                <div className="p-5 flex flex-col flex-1">
+                  <h4 className="font-bold text-base text-stone-900 mb-2 group-hover:text-amber-800 transition-colors">
+                    ดีไซน์ Cute หวานละมุน พื้นหลังผ้า
+                  </h4>
+                  <p className="text-xs text-stone-500 mb-6 flex-1 leading-relaxed">
+                    ลวดลายน่ารักสดใสสไตล์แฮนด์เมด บนพื้นหลังสัมผัสผ้าธรรมชาติ เหมาะสำหรับภาพความทรงจำที่แสนหวานอบอุ่น
+                  </p>
+                  <button className="w-full bg-stone-800 hover:bg-stone-900 text-white font-medium py-2.5 rounded-xl text-xs transition cursor-pointer">
+                    เลือกดีไซน์นี้
+                  </button>
+                </div>
+              </div>
 
-        {/* Sidebar Area */}
-        <div className="lg:col-span-5 bg-neutral-900/50 rounded-2xl border border-neutral-800 p-6">
-          <ControlPanel
-            config={config}
-            setConfig={setConfig}
-            activeSlotId={activeSlotId}
-            onUploadImage={handleUploadImage}
-          />
+              {/* Vintage Lace Card */}
+              <div
+                onClick={() => {
+                  setConfig(prev => ({
+                    ...prev,
+                    mode: 'template',
+                    templateId: 'temp-lacevintage'
+                  }));
+                  setView('customize');
+                }}
+                className="group bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col h-full cursor-pointer"
+              >
+                <div className="aspect-[2/3] w-full bg-stone-50 relative flex items-center justify-center border-b border-stone-100 p-4 overflow-hidden">
+                  <img
+                    src="/templates/lace-vintage.svg"
+                    alt="Vintage Lace Design"
+                    className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <span className="absolute top-3 left-3 bg-amber-50 text-amber-800 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">
+                    Vintage Lace
+                  </span>
+                </div>
+                <div className="p-5 flex flex-col flex-1">
+                  <h4 className="font-bold text-base text-stone-900 mb-2 group-hover:text-amber-800 transition-colors">
+                    ลายลูกไม้วินเทจ พื้นหลังผ้ากระสอบ
+                  </h4>
+                  <p className="text-xs text-stone-500 mb-6 flex-1 leading-relaxed">
+                    ความคลาสสิกของลายลูกไม้ขาวละมุนตา ด้วยสีพื้นหลังกระสอบ สร้างสรรค์ภาพถ่ายในสไตล์เรโทรและวินเทจได้อย่างสวยงาม
+                  </p>
+                  <button className="w-full bg-stone-800 hover:bg-stone-900 text-white font-medium py-2.5 rounded-xl text-xs transition cursor-pointer">
+                    เลือกดีไซน์นี้
+                  </button>
+                </div>
+              </div>
+
+              {/* Anniversary Playing Cards / Custom Card */}
+              <div
+                onClick={() => {
+                  setConfig(prev => ({
+                    ...prev,
+                    mode: 'template',
+                    templateId: 'temp-cardred'
+                  }));
+                  setView('customize');
+                }}
+                className="group bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col h-full cursor-pointer"
+              >
+                <div className="aspect-[2/3] w-full bg-stone-50 relative flex items-center justify-center border-b border-stone-100 p-4 overflow-hidden">
+                  <img
+                    src="/templates/CardRed.png"
+                    alt="Anniversary Playing Cards / Custom Design"
+                    className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <span className="absolute top-3 left-3 bg-stone-100 text-stone-800 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">
+                    Anniversary / Custom
+                  </span>
+                </div>
+                <div className="p-5 flex flex-col flex-1">
+                  <h4 className="font-bold text-base text-stone-900 mb-2 group-hover:text-amber-800 transition-colors">
+                    กรอบรูปการ์ดครบรอบ / ออกแบบเอง
+                  </h4>
+                  <p className="text-xs text-stone-500 mb-6 flex-1 leading-relaxed">
+                    ดีไซน์กรอบรูปสไตล์การ์ดวันครบรอบสุดเก๋ หรือเลือกจัดวางภาพถ่ายของคุณเองได้อย่างอิสระแบบไม่มีข้อจำกัด
+                  </p>
+                  <button className="w-full bg-stone-800 hover:bg-stone-900 text-white font-medium py-2.5 rounded-xl text-xs transition cursor-pointer">
+                    เลือกสไตล์นี้ / ออกแบบเอง
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Canvas Preview Area */}
+          <div className="lg:col-span-7 flex flex-col items-center gap-6 bg-white rounded-2xl border border-stone-200 p-8 shadow-sm">
+            <div className="flex gap-2">
+              <button
+                onClick={() => setConfig(prev => ({ ...prev, orientation: 'portrait' }))}
+                className={`py-1.5 px-4 text-xs font-semibold rounded-lg transition cursor-pointer ${config.orientation === 'portrait' ? 'bg-stone-800 text-white shadow-sm' : 'text-stone-500 hover:text-stone-800 hover:bg-stone-100'}`}
+              >
+                แนวตั้ง (10x15 ซม.)
+              </button>
+              {config.mode !== 'template' && (
+                <button
+                  onClick={() => setConfig(prev => ({ ...prev, orientation: 'landscape' }))}
+                  className={`py-1.5 px-4 text-xs font-semibold rounded-lg transition cursor-pointer ${config.orientation === 'landscape' ? 'bg-stone-800 text-white shadow-sm' : 'text-stone-500 hover:text-stone-800 hover:bg-stone-100'}`}
+                >
+                  แนวนอน (15x10 ซม.)
+                </button>
+              )}
+            </div>
+
+            {/* Visible Canvas Preview */}
+            <FrameCanvas
+              config={config}
+              activeSlotId={activeSlotId}
+              setActiveSlotId={setActiveSlotId}
+              highResExport={false}
+              onImageStateChange={handleImageStateChange}
+            />
+
+            {/* Hidden Canvas for High-Resolution Export - mounted only during export */}
+            {exportConfig && (
+              <div style={{ display: 'none' }}>
+                <FrameCanvas
+                  id="high-res-canvas"
+                  config={exportConfig}
+                  activeSlotId={null}
+                  setActiveSlotId={() => {}}
+                  highResExport={true}
+                />
+              </div>
+            )}
+
+            <button
+              onClick={triggerExport}
+              className="mt-4 w-full max-w-[400px] bg-stone-800 hover:bg-stone-900 text-white font-semibold py-3 px-6 rounded-xl transition shadow-md cursor-pointer"
+            >
+              สรุปแบบและดาวน์โหลดรูปเพื่อสั่งซื้อ
+            </button>
+          </div>
+
+          {/* Sidebar Area */}
+          <div className="lg:col-span-5 bg-white rounded-2xl border border-stone-200 p-6 shadow-sm">
+            <ControlPanel
+              config={config}
+              setConfig={setConfig}
+              activeSlotId={activeSlotId}
+              onUploadImage={handleUploadImage}
+            />
+          </div>
+        </div>
+      )}
 
       <ExportModal
         isOpen={isExportOpen}

@@ -41,16 +41,16 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
       {/* Toggle Mode */}
       <div className="flex bg-stone-100 p-1 rounded-xl">
         <button
-          onClick={() => setConfig(prev => ({ ...prev, mode: 'template' }))}
-          className={`flex-1 py-2 text-sm font-medium rounded-lg transition cursor-pointer ${config.mode === 'template' ? 'bg-[#5C4033] text-white shadow-sm' : 'text-stone-700 hover:text-stone-900'}`}
-        >
-          เทมเพลตสำเร็จรูป
-        </button>
-        <button
           onClick={() => setConfig(prev => ({ ...prev, mode: 'custom' }))}
           className={`flex-1 py-2 text-sm font-medium rounded-lg transition cursor-pointer ${config.mode === 'custom' ? 'bg-[#5C4033] text-white shadow-sm' : 'text-stone-700 hover:text-stone-900'}`}
         >
           ออกแบบเอง
+        </button>
+        <button
+          onClick={() => setConfig(prev => ({ ...prev, mode: 'template' }))}
+          className={`flex-1 py-2 text-sm font-medium rounded-lg transition cursor-pointer ${config.mode === 'template' ? 'bg-[#5C4033] text-white shadow-sm' : 'text-stone-700 hover:text-stone-900'}`}
+        >
+          เทมเพลตสำเร็จรูป
         </button>
       </div>
 

@@ -54,7 +54,6 @@ export interface ProductConfig {
   allowedTemplateIds: string[];
   defaultTemplateId: string;
   defaultMatColorId: string;
-  grayscalePhotos?: boolean;
 }
 
 export interface FrameConfig {

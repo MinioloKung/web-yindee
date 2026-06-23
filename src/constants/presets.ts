@@ -42,12 +42,12 @@ export const MAT_COLORS: MatColor[] = [
 // ---- Layout Patterns (4 new layouts replacing old set) ----
 export const LAYOUT_PATTERNS: LayoutPattern[] = [
   {
-    id: 'triple-col',
-    name: '3 รูปแนวตั้ง',
+    id: 'triple-row',
+    name: '3 รูปบน-กลาง-ล่าง',
     slots: [
-      { id: 'slot-1', x: 5,  y: 8, width: 27, height: 84 },
-      { id: 'slot-2', x: 36, y: 8, width: 27, height: 84 },
-      { id: 'slot-3', x: 67, y: 8, width: 27, height: 84 }
+      { id: 'slot-1', x: 10, y: 6,  width: 80, height: 26 },
+      { id: 'slot-2', x: 10, y: 37, width: 80, height: 26 },
+      { id: 'slot-3', x: 10, y: 68, width: 80, height: 26 }
     ]
   },
   {

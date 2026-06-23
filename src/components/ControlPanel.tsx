@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { FrameConfig, ImageState } from '../types/frame';
-import { FRAME_STYLES, MAT_COLORS, LAYOUT_PATTERNS, PRESET_TEMPLATES } from '../constants/presets';
+import { FrameConfig, ImageState, ProductConfig } from '../types/frame';
+import { FRAME_STYLES, LAYOUT_PATTERNS, PRESET_TEMPLATES } from '../constants/presets';
 import { Upload, RotateCw, ZoomIn, Grid, Palette, Sliders } from 'lucide-react';
 
 interface ControlPanelProps {
@@ -10,9 +10,10 @@ interface ControlPanelProps {
   setConfig: React.Dispatch<React.SetStateAction<FrameConfig>>;
   activeSlotId: string | null;
   onUploadImage: (slotId: string, file: File) => void;
+  productConfig: ProductConfig;  // NEW
 }
 
-export default function ControlPanel({ config, setConfig, activeSlotId, onUploadImage }: ControlPanelProps) {
+export default function ControlPanel({ config, setConfig, activeSlotId, onUploadImage, productConfig }: ControlPanelProps) {
   const handleFrameChange = (id: string) => setConfig(prev => ({ ...prev, frameStyleId: id }));
   const handleMatChange = (id: string) => setConfig(prev => ({ ...prev, matColorId: id }));
   const handleLayoutChange = (id: string) => setConfig(prev => ({ ...prev, layoutId: id }));
@@ -91,11 +92,11 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
           </div>
 
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-stone-700 flex items-center gap-2 mb-3">
-              <Palette size={14} /> สีกระดาษรองการ์ด
+            <label className="text-xs font-semibold uppercase tracking-wider text-[var(--color-on-surface-variant)] flex items-center gap-2 mb-3">
+              <Palette size={14} /> {productConfig.matLabel}
             </label>
             <div className="grid grid-cols-5 gap-2">
-              {MAT_COLORS.map(mat => (
+              {productConfig.matColors.map(mat => (
                 <button
                   key={mat.id}
                   onClick={() => handleMatChange(mat.id)}
@@ -110,25 +111,27 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
       ) : (
         /* Template Mode Tools */
         <div>
-          <label className="text-xs font-semibold uppercase tracking-wider text-stone-700 flex items-center gap-2 mb-3">
+          <label className="text-xs font-semibold uppercase tracking-wider text-[var(--color-on-surface-variant)] flex items-center gap-2 mb-3">
             เลือกดีไซน์เทมเพลต
           </label>
           <div className="grid grid-cols-1 gap-3">
-            {PRESET_TEMPLATES.map(temp => (
-              <button
-                key={temp.id}
-                onClick={() => setConfig(prev => ({ ...prev, templateId: temp.id }))}
-                className={`p-4 rounded-xl border text-left flex items-center gap-3 transition cursor-pointer ${config.templateId === temp.id ? 'border-[#5C4033] bg-[#5C4033]/10 text-[#5C4033] font-semibold' : 'border-stone-200 bg-white text-stone-700 hover:border-stone-300'}`}
-              >
-                <div className={`w-12 h-16 rounded border flex items-center justify-center transition ${config.templateId === temp.id ? 'bg-[#5C4033]/20 border-[#5C4033]/30' : 'bg-stone-100 border-stone-200'}`}>
-                  🖼️
-                </div>
-                <div>
-                  <h4 className="font-semibold text-sm">{temp.name}</h4>
-                  <p className={`text-xs transition ${config.templateId === temp.id ? 'text-[#5C4033]/70' : 'text-stone-500'}`}>4x6 นิ้ว</p>
-                </div>
-              </button>
-            ))}
+            {PRESET_TEMPLATES
+              .filter(temp => productConfig.allowedTemplateIds.includes(temp.id))
+              .map(temp => (
+                <button
+                  key={temp.id}
+                  onClick={() => setConfig(prev => ({ ...prev, templateId: temp.id }))}
+                  className={`p-4 rounded-xl border text-left flex items-center gap-3 transition cursor-pointer ${config.templateId === temp.id ? 'border-[#5C4033] bg-[#5C4033]/10 text-[#5C4033] font-semibold' : 'border-stone-200 bg-white text-stone-700 hover:border-stone-300'}`}
+                >
+                  <div className={`w-12 h-16 rounded border flex items-center justify-center transition overflow-hidden ${config.templateId === temp.id ? 'border-[#5C4033]/30' : 'border-stone-200'}`}>
+                    <img src={temp.imageUrl} alt={temp.name} className="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-sm">{temp.name}</h4>
+                    <p className={`text-xs transition ${config.templateId === temp.id ? 'text-[#5C4033]/70' : 'text-stone-500'}`}>10x15 ซม.</p>
+                  </div>
+                </button>
+              ))}
           </div>
         </div>
       )}

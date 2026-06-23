@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 672 1072" width="672" height="1072">
+  <!-- Soft cream fabric-like background with hand-drawn aesthetic -->
+  <path fill="#FAF7F2" fill-rule="evenodd" d="M 0,0 L 672,0 L 672,1072 L 0,1072 Z M 67.2,107.2 L 67.2,911.2 L 604.8,911.2 L 604.8,107.2 Z"/>
+  
+  <!-- Subtle canvas cross-hatch fabric pattern lines -->
+  <g stroke="#E8E2D5" stroke-width="1" opacity="0.3">
+    <!-- Horizontal threads -->
+    <line x1="0" y1="200" x2="672" y2="200" />
+    <line x1="0" y1="400" x2="672" y2="400" />
+    <line x1="0" y1="600" x2="672" y2="600" />
+    <line x1="0" y1="800" x2="672" y2="800" />
+    <!-- Vertical threads -->
+    <line x1="150" y1="0" x2="150" y2="1072" />
+    <line x1="300" y1="0" x2="300" y2="1072" />
+    <line x1="450" y1="0" x2="450" y2="1072" />
+    <line x1="600" y1="0" x2="600" y2="1072" />
+  </g>
+
+  <!-- Cute decorative icons around the slot -->
+  <!-- Cute Strawberry at Top-Right -->
+  <g transform="translate(560, 40) scale(1.5)">
+    <path d="M12 2C11.5 2 10 3.5 10 5.5C10 8.5 14 11 14 11C14 11 18 8.5 18 5.5C18 3.5 16.5 2 16 2" fill="#F87171"/>
+    <path d="M12 2C13 1 15 1 16 2C15.5 3 14.5 3 14 2" stroke="#4ADE80" stroke-width="1" fill="#4ADE80"/>
+    <circle cx="12" cy="5" r="0.5" fill="#FFE4E6"/>
+    <circle cx="15" cy="6" r="0.5" fill="#FFE4E6"/>
+    <circle cx="13" cy="8" r="0.5" fill="#FFE4E6"/>
+  </g>
+  
+  <!-- Cute Clouds & Rainbow at Bottom -->
+  <g transform="translate(80, 940) scale(1.2)">
+    <!-- Rainbow -->
+    <path d="M 50,40 A 30,30 0 0,1 110,40" stroke="#FDBA74" stroke-width="6" fill="none" opacity="0.8"/>
+    <path d="M 40,40 A 40,40 0 0,1 120,40" stroke="#FCA5A5" stroke-width="6" fill="none" opacity="0.8"/>
+    <!-- Cloud Left -->
+    <path d="M30 40a15 15 0 0 1 20-5 15 15 0 0 1 25 10h-45z" fill="#FFFFFF"/>
+    <!-- Cloud Right -->
+    <path d="M100 40a15 15 0 0 1 20-5 15 15 0 0 1 25 10h-45z" fill="#FFFFFF"/>
+  </g>
+
+  <!-- Handwritten Text at Bottom -->
+  <text x="336" y="995" font-family="'Comic Sans MS', cursive, sans-serif" font-size="28" fill="#B45309" text-anchor="middle" font-weight="bold">Stay Cute &amp; Happy</text>
+</svg>

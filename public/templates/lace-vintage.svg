@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 672 1072" width="672" height="1072">
+  <!-- Vintage burlap/linen textured background -->
+  <path fill="#E6D3B3" fill-rule="evenodd" d="M 0,0 L 672,0 L 672,1072 L 0,1072 Z M 80.64,128.64 L 80.64,879.04 L 591.36,879.04 L 591.36,128.64 Z"/>
+  
+  <!-- Subtle dark brown noise/grid for burlap look -->
+  <g stroke="#CBB084" stroke-width="1.5" opacity="0.4">
+    <!-- Horizontal lines -->
+    <line x1="0" y1="100" x2="672" y2="100" stroke-dasharray="3,3" />
+    <line x1="0" y1="300" x2="672" y2="300" stroke-dasharray="3,3" />
+    <line x1="0" y1="500" x2="672" y2="500" stroke-dasharray="3,3" />
+    <line x1="0" y1="700" x2="672" y2="700" stroke-dasharray="3,3" />
+    <line x1="0" y1="900" x2="672" y2="900" stroke-dasharray="3,3" />
+    <!-- Vertical lines -->
+    <line x1="100" y1="0" x2="100" y2="1072" stroke-dasharray="3,3" />
+    <line x1="250" y1="0" x2="250" y2="1072" stroke-dasharray="3,3" />
+    <line x1="400" y1="0" x2="400" y2="1072" stroke-dasharray="3,3" />
+    <line x1="550" y1="0" x2="550" y2="1072" stroke-dasharray="3,3" />
+  </g>
+
+  <!-- Elegant white lace pattern around the slot border -->
+  <g stroke="#FFFFFF" stroke-width="3" fill="none" opacity="0.9">
+    <!-- Rectangle frame -->
+    <rect x="74.64" y="122.64" width="522.72" height="762.4" rx="4" />
+    <!-- Lace scallops/loops around the border -->
+    <!-- We draw circle patterns as decorative lace -->
+    <path d="M 74.64,122.64 C 85,110 100,110 110,122.64 C 120,110 135,110 145,122.64 C 155,110 170,110 180,122.64 C 195,110 210,110 220,122.64 C 235,110 250,110 260,122.64 C 275,110 290,110 300,122.64 C 315,110 330,110 340,122.64 C 355,110 370,110 380,122.64 C 395,110 410,110 420,122.64 C 435,110 450,110 460,122.64 C 475,110 490,110 500,122.64 C 515,110 530,110 540,122.64 C 555,110 570,110 580,122.64 C 590,110 595,115 597.36,122.64" />
+    <!-- Bottom line loops -->
+    <path d="M 74.64,885.04 C 85,897 100,897 110,885.04 C 120,897 135,897 145,885.04 C 155,897 170,897 180,885.04 C 195,897 210,897 220,885.04 C 235,897 250,897 260,885.04 C 275,897 290,897 300,885.04 C 315,897 330,897 340,885.04 C 355,897 370,897 380,885.04 C 395,897 410,897 420,885.04 C 435,897 450,897 460,885.04 C 475,897 490,897 500,885.04 C 515,897 530,897 540,885.04 C 555,897 570,897 580,885.04 C 590,897 595,892 597.36,885.04" />
+  </g>
+
+  <!-- Ornate vintage text -->
+  <text x="336" y="960" font-family="Georgia, serif" font-style="italic" font-size="28" fill="#5C4033" text-anchor="middle">Vintage Memories</text>
+  <line x1="200" y1="990" x2="472" y2="990" stroke="#5C4033" stroke-width="1" />
+</svg>

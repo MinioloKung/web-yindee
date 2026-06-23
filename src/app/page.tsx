@@ -5,7 +5,7 @@ import FrameCanvas from '../components/FrameCanvas';
 import ControlPanel from '../components/ControlPanel';
 import ExportModal from '../components/ExportModal';
 import { FrameConfig, ImageState, ProductType } from '../types/frame';
-import { FRAME_STYLES, MAT_COLORS, PRESET_TEMPLATES, getProductConfig } from '../constants/presets';
+import { FRAME_STYLES, PRESET_TEMPLATES, getProductConfig } from '../constants/presets';
 
 export default function Home() {
   const [view, setView] = useState<'home' | 'customize'>('home');

@@ -7,7 +7,7 @@ export const FRAME_STYLES: FrameStyle[] = [
 ];
 
 // ---- Mat Colors: Paper (Anniversary Card) ----
-export const MAT_COLORS: MatColor[] = [
+export const ORIGINAL_MAT_COLORS: MatColor[] = [
   { id: 'off-white',  name: 'ขาวออฟไวท์',       color: '#faf9f6', textColor: '#171717' },
   { id: 'warm-gray',  name: 'เทาอุ่น',           color: '#d4d4d4', textColor: '#171717' },
   { id: 'charcoal',   name: 'เทาเข้ม',           color: '#262626', textColor: '#faf9f6' },
@@ -31,6 +31,12 @@ export const FABRIC_COLORS_VINTAGE: MatColor[] = [
   { id: 'vintage-beige',     name: 'เบจ',         color: '#E8DCC8', textColor: '#171717' },
   { id: 'vintage-warm-gray', name: 'เทาอุ่น',    color: '#B8B0A8', textColor: '#171717' },
   { id: 'vintage-moss',      name: 'เขียวมอส',   color: '#8B9E7A', textColor: '#171717' }
+];
+
+export const MAT_COLORS: MatColor[] = [
+  ...ORIGINAL_MAT_COLORS,
+  ...FABRIC_COLORS_CUTE,
+  ...FABRIC_COLORS_VINTAGE
 ];
 
 // ---- Layout Patterns (4 new layouts replacing old set) ----
@@ -162,7 +168,7 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     id: 'anniversary-card',
     name: 'กรอบรูปการ์ดครบรอบ',
     matLabel: 'สีกระดาษรอง',
-    matColors: MAT_COLORS,
+    matColors: ORIGINAL_MAT_COLORS,
     allowedTemplateIds: ['temp-cardred', 'temp-cardegg'],
     defaultTemplateId: 'temp-cardred',
     defaultMatColorId: 'off-white'

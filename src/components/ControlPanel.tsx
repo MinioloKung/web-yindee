@@ -38,16 +38,16 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
   return (
     <div className="space-y-6">
       {/* Toggle Mode */}
-      <div className="flex bg-neutral-800 p-1 rounded-xl">
+      <div className="flex bg-stone-100 p-1 rounded-xl">
         <button
           onClick={() => setConfig(prev => ({ ...prev, mode: 'custom' }))}
-          className={`flex-1 py-2 text-sm font-medium rounded-lg transition ${config.mode === 'custom' ? 'bg-indigo-600 text-white' : 'text-neutral-400 hover:text-white'}`}
+          className={`flex-1 py-2 text-sm font-medium rounded-lg transition cursor-pointer ${config.mode === 'custom' ? 'bg-[#5C4033] text-white shadow-sm' : 'text-stone-700 hover:text-stone-900'}`}
         >
           ออกแบบเอง
         </button>
         <button
           onClick={() => setConfig(prev => ({ ...prev, mode: 'template' }))}
-          className={`flex-1 py-2 text-sm font-medium rounded-lg transition ${config.mode === 'template' ? 'bg-indigo-600 text-white' : 'text-neutral-400 hover:text-white'}`}
+          className={`flex-1 py-2 text-sm font-medium rounded-lg transition cursor-pointer ${config.mode === 'template' ? 'bg-[#5C4033] text-white shadow-sm' : 'text-stone-700 hover:text-stone-900'}`}
         >
           เทมเพลตสำเร็จรูป
         </button>
@@ -57,7 +57,7 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
         <>
           {/* Custom Mode Tools */}
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-neutral-400 flex items-center gap-2 mb-3">
+            <label className="text-xs font-semibold uppercase tracking-wider text-stone-700 flex items-center gap-2 mb-3">
               <Grid size={14} /> แพทเทิร์นการจัดวาง
             </label>
             <div className="grid grid-cols-2 gap-2">
@@ -65,7 +65,7 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
                 <button
                   key={layout.id}
                   onClick={() => handleLayoutChange(layout.id)}
-                  className={`p-3 text-xs rounded-xl border text-center transition ${config.layoutId === layout.id ? 'border-indigo-500 bg-indigo-500/10 text-white' : 'border-neutral-800 bg-neutral-900 text-neutral-400 hover:border-neutral-700'}`}
+                  className={`p-3 text-xs rounded-xl border text-center transition cursor-pointer ${config.layoutId === layout.id ? 'border-[#5C4033] bg-[#5C4033]/10 text-[#5C4033] font-semibold' : 'border-stone-200 bg-white text-stone-700 hover:border-stone-300'}`}
                 >
                   {layout.name}
                 </button>
@@ -74,7 +74,7 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
           </div>
 
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-neutral-400 flex items-center gap-2 mb-3">
+            <label className="text-xs font-semibold uppercase tracking-wider text-stone-700 flex items-center gap-2 mb-3">
               สีกรอบนอก
             </label>
             <div className="flex gap-2">
@@ -82,7 +82,7 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
                 <button
                   key={frame.id}
                   onClick={() => handleFrameChange(frame.id)}
-                  className={`flex-1 py-2 px-3 text-xs rounded-xl border text-center transition ${config.frameStyleId === frame.id ? 'border-indigo-500 bg-indigo-500/10 text-white' : 'border-neutral-800 bg-neutral-900 text-neutral-400 hover:border-neutral-700'}`}
+                  className={`flex-1 py-2 px-3 text-xs rounded-xl border text-center transition cursor-pointer ${config.frameStyleId === frame.id ? 'border-[#5C4033] bg-[#5C4033]/10 text-[#5C4033] font-semibold' : 'border-stone-200 bg-white text-stone-700 hover:border-stone-300'}`}
                 >
                   {frame.name}
                 </button>
@@ -91,7 +91,7 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
           </div>
 
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-neutral-400 flex items-center gap-2 mb-3">
+            <label className="text-xs font-semibold uppercase tracking-wider text-stone-700 flex items-center gap-2 mb-3">
               <Palette size={14} /> สีกระดาษรองการ์ด
             </label>
             <div className="grid grid-cols-5 gap-2">
@@ -100,7 +100,7 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
                   key={mat.id}
                   onClick={() => handleMatChange(mat.id)}
                   style={{ backgroundColor: mat.color }}
-                  className={`w-full aspect-square rounded-full border-2 transition ${config.matColorId === mat.id ? 'border-indigo-500 scale-110' : 'border-transparent hover:scale-105'}`}
+                  className={`w-full aspect-square rounded-full border-2 transition cursor-pointer ${config.matColorId === mat.id ? 'border-[#5C4033] scale-110' : 'border-transparent hover:scale-105'}`}
                   title={mat.name}
                 />
               ))}
@@ -110,7 +110,7 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
       ) : (
         /* Template Mode Tools */
         <div>
-          <label className="text-xs font-semibold uppercase tracking-wider text-neutral-400 flex items-center gap-2 mb-3">
+          <label className="text-xs font-semibold uppercase tracking-wider text-stone-700 flex items-center gap-2 mb-3">
             เลือกดีไซน์เทมเพลต
           </label>
           <div className="grid grid-cols-1 gap-3">
@@ -118,14 +118,14 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
               <button
                 key={temp.id}
                 onClick={() => setConfig(prev => ({ ...prev, templateId: temp.id }))}
-                className={`p-4 rounded-xl border text-left flex items-center gap-3 transition ${config.templateId === temp.id ? 'border-indigo-500 bg-indigo-500/10 text-white' : 'border-neutral-800 bg-neutral-900 text-neutral-400 hover:border-neutral-700'}`}
+                className={`p-4 rounded-xl border text-left flex items-center gap-3 transition cursor-pointer ${config.templateId === temp.id ? 'border-[#5C4033] bg-[#5C4033]/10 text-[#5C4033] font-semibold' : 'border-stone-200 bg-white text-stone-700 hover:border-stone-300'}`}
               >
-                <div className="w-12 h-16 bg-neutral-800 rounded border border-neutral-700 flex items-center justify-center">
+                <div className={`w-12 h-16 rounded border flex items-center justify-center transition ${config.templateId === temp.id ? 'bg-[#5C4033]/20 border-[#5C4033]/30' : 'bg-stone-100 border-stone-200'}`}>
                   🖼️
                 </div>
                 <div>
                   <h4 className="font-semibold text-sm">{temp.name}</h4>
-                  <p className="text-xs text-neutral-500">4x6 นิ้ว</p>
+                  <p className={`text-xs transition ${config.templateId === temp.id ? 'text-[#5C4033]/70' : 'text-stone-500'}`}>4x6 นิ้ว</p>
                 </div>
               </button>
             ))}
@@ -133,33 +133,16 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
         </div>
       )}
 
-          <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-neutral-400 flex items-center gap-2 mb-3">
-              สีกรอบนอก
-            </label>
-            <div className="flex gap-2">
-              {FRAME_STYLES.map(frame => (
-                <button
-                  key={frame.id}
-                  onClick={() => handleFrameChange(frame.id)}
-                  className={`flex-1 py-2 px-3 text-xs rounded-xl border text-center transition ${config.frameStyleId === frame.id ? 'border-indigo-500 bg-indigo-500/10 text-white' : 'border-neutral-800 bg-neutral-900 text-neutral-400 hover:border-neutral-700'}`}
-                >
-                  {frame.name}
-                </button>
-              ))}
-            </div>
-          </div>
-
       {/* Upload & Alignment Area */}
       {activeSlotId && (
-        <div className="border-t border-neutral-800 pt-6 space-y-4">
-          <label className="text-xs font-semibold uppercase tracking-wider text-neutral-400 flex items-center gap-2">
+        <div className="border-t border-stone-200 pt-6 space-y-4">
+          <label className="text-xs font-semibold uppercase tracking-wider text-stone-700 flex items-center gap-2">
             <Sliders size={14} /> เครื่องมือปรับรูปภาพ
           </label>
 
           {/* Custom File Upload */}
           <div className="flex gap-4">
-            <label className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm py-2.5 px-4 rounded-xl cursor-pointer transition flex items-center justify-center gap-2">
+            <label className="flex-1 bg-[#5C4033] hover:bg-[#3D2B1F] text-white font-medium text-sm py-2.5 px-4 rounded-xl cursor-pointer transition flex items-center justify-center gap-2">
               <Upload size={16} /> อัปโหลดรูปภาพใหม่
               <input
                 type="file"
@@ -178,7 +161,7 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
             <div className="space-y-4 pt-2">
               {/* Scale zoom slider */}
               <div className="space-y-2">
-                <div className="flex justify-between text-xs text-neutral-400">
+                <div className="flex justify-between text-xs text-stone-600">
                   <span className="flex items-center gap-1"><ZoomIn size={12} /> ขนาดภาพ (ซูม)</span>
                   <span>{Math.round(scale * 100)}%</span>
                 </div>
@@ -189,13 +172,13 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
                   step="0.05"
                   value={scale}
                   onChange={(e) => handleSliderChange('scale', parseFloat(e.target.value))}
-                  className="w-full h-1 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                  className="w-full h-1 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-[#5C4033]"
                 />
               </div>
 
               {/* Rotation degrees slider */}
               <div className="space-y-2">
-                <div className="flex justify-between text-xs text-neutral-400">
+                <div className="flex justify-between text-xs text-stone-600">
                   <span className="flex items-center gap-1"><RotateCw size={12} /> มุมหมุนภาพ</span>
                   <span>{rotation}°</span>
                 </div>
@@ -206,7 +189,7 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
                   step="1"
                   value={rotation}
                   onChange={(e) => handleSliderChange('rotation', parseInt(e.target.value))}
-                  className="w-full h-1 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                  className="w-full h-1 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-[#5C4033]"
                 />
               </div>
             </div>

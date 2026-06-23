@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import { FrameConfig, ImageState } from '../types/frame';
-import { FRAME_STYLES, MAT_COLORS, LAYOUT_PATTERNS, PRESET_TEMPLATES } from '../constants/presets';
+import { FRAME_STYLES, MAT_COLORS, LAYOUT_PATTERNS, PRESET_TEMPLATES, getProductConfig } from '../constants/presets';
 
 interface FrameCanvasProps {
   config: FrameConfig;
@@ -51,6 +51,7 @@ export default function FrameCanvas({
   const activeMat = MAT_COLORS.find((m) => m.id === config.matColorId) || MAT_COLORS[0];
   const activeLayout = LAYOUT_PATTERNS.find((l) => l.id === config.layoutId) || LAYOUT_PATTERNS[0];
   const activeTemplate = PRESET_TEMPLATES.find((t) => t.id === config.templateId) || PRESET_TEMPLATES[0];
+  const productConfig = getProductConfig(config.productType);
 
   const slotsToDraw = config.mode === 'custom' ? activeLayout.slots : activeTemplate.slots;
 
@@ -203,7 +204,15 @@ export default function FrameCanvas({
             const scaleWidth = img.width * baseScale * imgState.scale;
             const scaleHeight = img.height * baseScale * imgState.scale;
 
+            if (productConfig.grayscalePhotos) {
+              ctx.filter = 'grayscale(100%)';
+            }
+
             ctx.drawImage(img, -scaleWidth / 2, -scaleHeight / 2, scaleWidth, scaleHeight);
+
+            if (productConfig.grayscalePhotos) {
+              ctx.filter = 'none';
+            }
 
             // Inner Bevel Shadow over the image (only in custom mode)
             ctx.restore();
@@ -284,6 +293,7 @@ export default function FrameCanvas({
     activeLayout,
     activeTemplate,
     slotsToDraw,
+    productConfig,
   ]);
 
   // Start drag handler

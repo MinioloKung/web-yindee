@@ -9,6 +9,7 @@ export const FRAME_STYLES: FrameStyle[] = [
 // ---- Mat Colors: Paper (Anniversary Card) ----
 export const ORIGINAL_MAT_COLORS: MatColor[] = [
   { id: 'off-white',  name: 'ขาวออฟไวท์',       color: '#faf9f6', textColor: '#171717' },
+  { id: 'burgundy',   name: 'แดงเบอร์กันดี',     color: '#581825', textColor: '#faf9f6' },
   { id: 'warm-gray',  name: 'เทาอุ่น',           color: '#d4d4d4', textColor: '#171717' },
   { id: 'charcoal',   name: 'เทาเข้ม',           color: '#262626', textColor: '#faf9f6' },
   { id: 'midnight',   name: 'น้ำเงินคราม',        color: '#1e293b', textColor: '#faf9f6' },
@@ -171,7 +172,8 @@ export const PRODUCT_CONFIGS: ProductConfig[] = [
     matColors: ORIGINAL_MAT_COLORS,
     allowedTemplateIds: ['temp-cardred', 'temp-cardegg'],
     defaultTemplateId: 'temp-cardred',
-    defaultMatColorId: 'off-white'
+    defaultMatColorId: 'burgundy',
+    grayscalePhotos: true
   }
 ];
 

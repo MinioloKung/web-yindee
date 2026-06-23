@@ -92,7 +92,7 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
           </div>
 
           <div>
-            <label className="text-xs font-semibold uppercase tracking-wider text-[var(--color-on-surface-variant)] flex items-center gap-2 mb-3">
+            <label className="text-xs font-semibold uppercase tracking-wider text-stone-700 flex items-center gap-2 mb-3">
               <Palette size={14} /> {productConfig.matLabel}
             </label>
             <div className="grid grid-cols-5 gap-2">
@@ -111,7 +111,7 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
       ) : (
         /* Template Mode Tools */
         <div>
-          <label className="text-xs font-semibold uppercase tracking-wider text-[var(--color-on-surface-variant)] flex items-center gap-2 mb-3">
+          <label className="text-xs font-semibold uppercase tracking-wider text-stone-700 flex items-center gap-2 mb-3">
             เลือกดีไซน์เทมเพลต
           </label>
           <div className="grid grid-cols-1 gap-3">

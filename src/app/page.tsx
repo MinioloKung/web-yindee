@@ -128,21 +128,21 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FDFBF7] text-stone-800 flex flex-col font-sans">
+    <main className="min-h-screen bg-background text-[#2D2219] flex flex-col font-sans">
       <header className="border-b border-stone-200 p-4 bg-white/80 backdrop-blur sticky top-0 z-30 shadow-sm">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-3">
             {view === 'customize' && (
               <button
                 onClick={() => setView('home')}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-stone-100 text-stone-700 hover:bg-stone-200 transition cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-stone-100 text-[#2D2219]/80 hover:bg-stone-200 transition cursor-pointer"
               >
                 ← กลับหน้าหลัก
               </button>
             )}
-            <h1 className="text-xl font-bold tracking-tight text-stone-900">Yindee Frame</h1>
+            <h1 className="text-xl font-bold tracking-tight text-[#2D2219]">Yindee Frame</h1>
           </div>
-          <span className="text-xs bg-stone-100 px-3 py-1 rounded-full text-stone-600 font-medium">10x15 cm (4x6&quot;) Edition</span>
+          <span className="text-xs bg-stone-100 px-3 py-1 rounded-full text-[#2D2219]/70 font-medium">10x15 cm (4x6&quot;) Edition</span>
         </div>
       </header>
 
@@ -150,10 +150,10 @@ export default function Home() {
         <div className="flex-1 max-w-7xl w-full mx-auto p-6 md:p-12 flex flex-col gap-12">
           {/* Landing Banner */}
           <div className="bg-gradient-to-br from-amber-50 to-orange-100/30 border border-orange-100/50 rounded-3xl p-8 md:p-12 text-center max-w-4xl mx-auto shadow-sm">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-stone-900 mb-4 tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#2D2219] mb-4 tracking-tight">
               บันทึกความทรงจำแสนอบอุ่นในกรอบรูปสุดพิเศษ
             </h2>
-            <p className="text-stone-600 text-sm md:text-base max-w-2xl mx-auto mb-8 leading-relaxed">
+            <p className="text-[#2D2219]/80 text-sm md:text-base max-w-2xl mx-auto mb-8 leading-relaxed">
               ออกแบบกรอบรูป Yindee Frame ขนาด 10x15 ซม. (4x6 นิ้ว) ของคุณเองได้ง่ายๆ
               เลือกสรรสไตล์และลวดลายสำเร็จรูปสุดพรีเมียม หรือเลือกจัดวางรูปภาพด้วยตัวคุณเองอย่างอิสระ
             </p>
@@ -166,7 +166,7 @@ export default function Home() {
                 }));
                 setView('customize');
               }}
-              className="bg-stone-800 hover:bg-stone-900 text-white font-semibold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform cursor-pointer text-sm"
+              className="bg-[#5C4033] hover:bg-[#3D2B1F] text-white font-semibold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform cursor-pointer text-sm"
             >
               เริ่มต้นออกแบบกรอบรูป
             </button>
@@ -175,8 +175,8 @@ export default function Home() {
           {/* Catalog Grid */}
           <div className="flex flex-col gap-8">
             <div className="text-center">
-              <h3 className="text-xl md:text-2xl font-bold text-stone-900 mb-2">เลือกสไตล์เริ่มต้นสำหรับกรอบรูป</h3>
-              <p className="text-stone-500 text-xs md:text-sm">เลือกสรรดีไซน์สำเร็จรูปที่คุณชอบเพื่อปรับแต่งภาพถ่ายของคุณต่อ</p>
+              <h3 className="text-xl md:text-2xl font-bold text-[#2D2219] mb-2">เลือกสไตล์เริ่มต้นสำหรับกรอบรูป</h3>
+              <p className="text-[#2D2219]/60 text-xs md:text-sm">เลือกสรรดีไซน์สำเร็จรูปที่คุณชอบเพื่อปรับแต่งภาพถ่ายของคุณต่อ</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto w-full">
@@ -203,13 +203,13 @@ export default function Home() {
                   </span>
                 </div>
                 <div className="p-5 flex flex-col flex-1">
-                  <h4 className="font-bold text-base text-stone-900 mb-2 group-hover:text-amber-800 transition-colors">
+                  <h4 className="font-bold text-base text-[#2D2219] mb-2 group-hover:text-[#5C4033] transition-colors">
                     ดีไซน์ Cute หวานละมุน พื้นหลังผ้า
                   </h4>
-                  <p className="text-xs text-stone-500 mb-6 flex-1 leading-relaxed">
+                  <p className="text-xs text-[#2D2219]/70 mb-6 flex-1 leading-relaxed">
                     ลวดลายน่ารักสดใสสไตล์แฮนด์เมด บนพื้นหลังสัมผัสผ้าธรรมชาติ เหมาะสำหรับภาพความทรงจำที่แสนหวานอบอุ่น
                   </p>
-                  <button className="w-full bg-stone-800 hover:bg-stone-900 text-white font-medium py-2.5 rounded-xl text-xs transition cursor-pointer">
+                  <button className="w-full bg-[#5C4033] hover:bg-[#3D2B1F] text-white font-medium py-2.5 rounded-xl text-xs transition cursor-pointer">
                     เลือกดีไซน์นี้
                   </button>
                 </div>
@@ -238,13 +238,13 @@ export default function Home() {
                   </span>
                 </div>
                 <div className="p-5 flex flex-col flex-1">
-                  <h4 className="font-bold text-base text-stone-900 mb-2 group-hover:text-amber-800 transition-colors">
+                  <h4 className="font-bold text-base text-[#2D2219] mb-2 group-hover:text-[#5C4033] transition-colors">
                     ลายลูกไม้วินเทจ พื้นหลังผ้ากระสอบ
                   </h4>
-                  <p className="text-xs text-stone-500 mb-6 flex-1 leading-relaxed">
+                  <p className="text-xs text-[#2D2219]/70 mb-6 flex-1 leading-relaxed">
                     ความคลาสสิกของลายลูกไม้ขาวละมุนตา ด้วยสีพื้นหลังกระสอบ สร้างสรรค์ภาพถ่ายในสไตล์เรโทรและวินเทจได้อย่างสวยงาม
                   </p>
-                  <button className="w-full bg-stone-800 hover:bg-stone-900 text-white font-medium py-2.5 rounded-xl text-xs transition cursor-pointer">
+                  <button className="w-full bg-[#5C4033] hover:bg-[#3D2B1F] text-white font-medium py-2.5 rounded-xl text-xs transition cursor-pointer">
                     เลือกดีไซน์นี้
                   </button>
                 </div>
@@ -268,18 +268,18 @@ export default function Home() {
                     alt="Anniversary Playing Cards / Custom Design"
                     className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
                   />
-                  <span className="absolute top-3 left-3 bg-stone-100 text-stone-800 text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">
+                  <span className="absolute top-3 left-3 bg-[#5C4033]/10 text-[#5C4033] text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">
                     Anniversary / Custom
                   </span>
                 </div>
                 <div className="p-5 flex flex-col flex-1">
-                  <h4 className="font-bold text-base text-stone-900 mb-2 group-hover:text-amber-800 transition-colors">
+                  <h4 className="font-bold text-base text-[#2D2219] mb-2 group-hover:text-[#5C4033] transition-colors">
                     กรอบรูปการ์ดครบรอบ / ออกแบบเอง
                   </h4>
-                  <p className="text-xs text-stone-500 mb-6 flex-1 leading-relaxed">
+                  <p className="text-xs text-[#2D2219]/70 mb-6 flex-1 leading-relaxed">
                     ดีไซน์กรอบรูปสไตล์การ์ดวันครบรอบสุดเก๋ หรือเลือกจัดวางภาพถ่ายของคุณเองได้อย่างอิสระแบบไม่มีข้อจำกัด
                   </p>
-                  <button className="w-full bg-stone-800 hover:bg-stone-900 text-white font-medium py-2.5 rounded-xl text-xs transition cursor-pointer">
+                  <button className="w-full bg-[#5C4033] hover:bg-[#3D2B1F] text-white font-medium py-2.5 rounded-xl text-xs transition cursor-pointer">
                     เลือกสไตล์นี้ / ออกแบบเอง
                   </button>
                 </div>
@@ -294,14 +294,14 @@ export default function Home() {
             <div className="flex gap-2">
               <button
                 onClick={() => setConfig(prev => ({ ...prev, orientation: 'portrait' }))}
-                className={`py-1.5 px-4 text-xs font-semibold rounded-lg transition cursor-pointer ${config.orientation === 'portrait' ? 'bg-stone-800 text-white shadow-sm' : 'text-stone-500 hover:text-stone-800 hover:bg-stone-100'}`}
+                className={`py-1.5 px-4 text-xs font-semibold rounded-lg transition cursor-pointer ${config.orientation === 'portrait' ? 'bg-[#5C4033] text-white shadow-sm' : 'text-[#2D2219]/70 hover:text-[#2D2219] hover:bg-stone-100'}`}
               >
                 แนวตั้ง (10x15 ซม.)
               </button>
               {config.mode !== 'template' && (
                 <button
                   onClick={() => setConfig(prev => ({ ...prev, orientation: 'landscape' }))}
-                  className={`py-1.5 px-4 text-xs font-semibold rounded-lg transition cursor-pointer ${config.orientation === 'landscape' ? 'bg-stone-800 text-white shadow-sm' : 'text-stone-500 hover:text-stone-800 hover:bg-stone-100'}`}
+                  className={`py-1.5 px-4 text-xs font-semibold rounded-lg transition cursor-pointer ${config.orientation === 'landscape' ? 'bg-[#5C4033] text-white shadow-sm' : 'text-[#2D2219]/70 hover:text-[#2D2219] hover:bg-stone-100'}`}
                 >
                   แนวนอน (15x10 ซม.)
                 </button>
@@ -332,7 +332,7 @@ export default function Home() {
 
             <button
               onClick={triggerExport}
-              className="mt-4 w-full max-w-[400px] bg-stone-800 hover:bg-stone-900 text-white font-semibold py-3 px-6 rounded-xl transition shadow-md cursor-pointer"
+              className="mt-4 w-full max-w-[400px] bg-[#5C4033] hover:bg-[#3D2B1F] text-white font-semibold py-3 px-6 rounded-xl transition shadow-md cursor-pointer"
             >
               สรุปแบบและดาวน์โหลดรูปเพื่อสั่งซื้อ
             </button>

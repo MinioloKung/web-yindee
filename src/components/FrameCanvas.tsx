@@ -389,7 +389,7 @@ export default function FrameCanvas({
   const aspectClass = config.orientation === 'portrait' ? 'aspect-[2/3]' : 'aspect-[3/2]';
 
   return (
-    <div className={`relative w-full ${aspectClass} max-w-[400px] shadow-2xl rounded-lg overflow-hidden border border-neutral-800`}>
+    <div className={`relative w-full ${aspectClass} max-w-[400px] shadow-2xl rounded-lg overflow-hidden border border-stone-200`}>
       <canvas
         id={id}
         ref={canvasRef}

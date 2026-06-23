@@ -5,17 +5,18 @@ import FrameCanvas from '../components/FrameCanvas';
 import ControlPanel from '../components/ControlPanel';
 import ExportModal from '../components/ExportModal';
 import { FrameConfig, ImageState } from '../types/frame';
-import { FRAME_STYLES, MAT_COLORS, PRESET_TEMPLATES } from '../constants/presets';
+import { FRAME_STYLES, MAT_COLORS, PRESET_TEMPLATES, getProductConfig } from '../constants/presets';
 
 export default function Home() {
   const [view, setView] = useState<'home' | 'customize'>('home');
   const [config, rawSetConfig] = useState<FrameConfig>({
+    productType: 'anniversary-card',
     mode: 'custom',
     orientation: 'portrait',
     frameStyleId: 'black',
     matColorId: 'off-white',
-    layoutId: 'single',
-    templateId: PRESET_TEMPLATES[0]?.id || 'temp-polaroid',
+    layoutId: 'single-center',
+    templateId: PRESET_TEMPLATES[0]?.id || 'temp-cardred',
     images: {}
   });
 
@@ -38,8 +39,9 @@ export default function Home() {
   const [isExportOpen, setIsExportOpen] = useState<boolean>(false);
   const [exportConfig, setExportConfig] = useState<FrameConfig | null>(null);
 
+  const productConfig = getProductConfig(config.productType);
   const activeFrame = FRAME_STYLES.find(f => f.id === config.frameStyleId) || FRAME_STYLES[0];
-  const activeMat = MAT_COLORS.find(m => m.id === config.matColorId) || MAT_COLORS[0];
+  const activeMat = productConfig.matColors.find(m => m.id === config.matColorId) || productConfig.matColors[0];
 
   const handleUploadImage = (slotId: string, file: File) => {
     // Revoke previous object URL to prevent memory leaks
@@ -161,8 +163,9 @@ export default function Home() {
               onClick={() => {
                 setConfig(prev => ({
                   ...prev,
+                  productType: 'anniversary-card',
                   mode: 'custom',
-                  layoutId: 'single'
+                  layoutId: 'single-center'
                 }));
                 setView('customize');
               }}
@@ -183,10 +186,15 @@ export default function Home() {
               {/* Cute Fabric Card */}
               <div
                 onClick={() => {
+                  const pc = getProductConfig('cute-fabric');
                   setConfig(prev => ({
                     ...prev,
+                    productType: 'cute-fabric',
                     mode: 'template',
-                    templateId: 'temp-cutefabric'
+                    templateId: pc.defaultTemplateId,
+                    matColorId: pc.defaultMatColorId,
+                    layoutId: 'single-center',
+                    images: {}
                   }));
                   setView('customize');
                 }}
@@ -218,10 +226,15 @@ export default function Home() {
               {/* Vintage Lace Card */}
               <div
                 onClick={() => {
+                  const pc = getProductConfig('vintage-lace');
                   setConfig(prev => ({
                     ...prev,
+                    productType: 'vintage-lace',
                     mode: 'template',
-                    templateId: 'temp-lacevintage'
+                    templateId: pc.defaultTemplateId,
+                    matColorId: pc.defaultMatColorId,
+                    layoutId: 'single-center',
+                    images: {}
                   }));
                   setView('customize');
                 }}
@@ -253,10 +266,15 @@ export default function Home() {
               {/* Anniversary Playing Cards / Custom Card */}
               <div
                 onClick={() => {
+                  const pc = getProductConfig('anniversary-card');
                   setConfig(prev => ({
                     ...prev,
+                    productType: 'anniversary-card',
                     mode: 'template',
-                    templateId: 'temp-cardred'
+                    templateId: pc.defaultTemplateId,
+                    matColorId: pc.defaultMatColorId,
+                    layoutId: 'single-center',
+                    images: {}
                   }));
                   setView('customize');
                 }}
@@ -345,6 +363,7 @@ export default function Home() {
               setConfig={setConfig}
               activeSlotId={activeSlotId}
               onUploadImage={handleUploadImage}
+              productConfig={productConfig}
             />
           </div>
         </div>

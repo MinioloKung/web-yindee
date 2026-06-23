@@ -24,7 +24,7 @@ export interface LayoutPattern {
 export interface FrameStyle {
   id: string;
   name: string;
-  color: string;      // Fallback hex/hsl
+  color: string;
   borderColor: string;
   innerBorderColor: string;
   woodTexture?: boolean;
@@ -33,18 +33,31 @@ export interface FrameStyle {
 export interface MatColor {
   id: string;
   name: string;
-  color: string;      // css color representation
-  textColor: string;  // color of text to render on top
+  color: string;
+  textColor: string;
 }
 
 export interface PresetTemplate {
   id: string;
   name: string;
-  imageUrl: string;   // path to transparent overlay image
+  imageUrl: string;
   slots: LayoutSlot[];
 }
 
+export type ProductType = 'cute-fabric' | 'vintage-lace' | 'anniversary-card';
+
+export interface ProductConfig {
+  id: ProductType;
+  name: string;
+  matLabel: string;
+  matColors: MatColor[];
+  allowedTemplateIds: string[];
+  defaultTemplateId: string;
+  defaultMatColorId: string;
+}
+
 export interface FrameConfig {
+  productType: ProductType;
   mode: 'custom' | 'template';
   orientation: 'portrait' | 'landscape';
   frameStyleId: string;

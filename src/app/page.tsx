@@ -110,11 +110,11 @@ export default function Home() {
         setExportConfig(null);
         return;
       }
-      const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+      const dataUrl = canvas.toDataURL('image/png');
       
       // Auto-download image file
       const link = document.createElement('a');
-      link.download = `yindee-frame-4x6-${Date.now()}.jpg`;
+      link.download = `yindee-frame-10x15-${Date.now()}.png`;
       link.href = dataUrl;
       link.click();
 
@@ -131,7 +131,7 @@ export default function Home() {
       <header className="border-b border-neutral-800 p-4 bg-neutral-900/50 backdrop-blur">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <h1 className="text-xl font-bold tracking-tight text-white">Yindee Frame Customizer</h1>
-          <span className="text-xs bg-neutral-800 px-3 py-1 rounded-full text-neutral-400">4x6&quot; Edition</span>
+          <span className="text-xs bg-neutral-800 px-3 py-1 rounded-full text-neutral-400">10x15 cm (4x6&quot;) Edition</span>
         </div>
       </header>
 
@@ -143,14 +143,14 @@ export default function Home() {
               onClick={() => setConfig(prev => ({ ...prev, orientation: 'portrait' }))}
               className={`py-1.5 px-4 text-xs font-semibold rounded-lg transition ${config.orientation === 'portrait' ? 'bg-neutral-800 text-white border border-neutral-700' : 'text-neutral-500 hover:text-neutral-300'}`}
             >
-              แนวตั้ง (4x6&quot;)
+              แนวตั้ง (10x15 ซม.)
             </button>
             {config.mode !== 'template' && (
               <button
                 onClick={() => setConfig(prev => ({ ...prev, orientation: 'landscape' }))}
                 className={`py-1.5 px-4 text-xs font-semibold rounded-lg transition ${config.orientation === 'landscape' ? 'bg-neutral-800 text-white border border-neutral-700' : 'text-neutral-500 hover:text-neutral-300'}`}
               >
-                แนวนอน (6x4&quot;)
+                แนวนอน (15x10 ซม.)
               </button>
             )}
           </div>

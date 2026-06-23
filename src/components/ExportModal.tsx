@@ -16,7 +16,7 @@ interface ExportModalProps {
 export default function ExportModal({ isOpen, onClose, imageSrc, config, frameName, matName }: ExportModalProps) {
   if (!isOpen) return null;
 
-  const orderText = `สวัสดีครับ สนใจสั่งซื้อกรอบรูปขนาด 4x6 นิ้วครับ
+  const orderText = `สวัสดีครับ สนใจสั่งซื้อกรอบรูปขนาด 10x15 ซม. (4x6 นิ้ว) ครับ
 - รูปแบบ: ${config.mode === 'custom' ? 'ออกแบบเอง (Custom)' : 'ดีไซน์สำเร็จรูป (Template)'}
 - สีกรอบรูป: ${frameName}
 - สีกระดาษรอง: ${config.mode === 'custom' ? matName : 'ตามรูปแบบดีไซน์'}

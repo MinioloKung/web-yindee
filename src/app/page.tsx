@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import FrameCanvas from '../components/FrameCanvas';
 import ControlPanel from '../components/ControlPanel';
 import ExportModal from '../components/ExportModal';
-import { FrameConfig, ImageState } from '../types/frame';
+import { FrameConfig, ImageState, ProductType } from '../types/frame';
 import { FRAME_STYLES, MAT_COLORS, PRESET_TEMPLATES, getProductConfig } from '../constants/presets';
 
 export default function Home() {
@@ -32,6 +32,27 @@ export default function Home() {
       }
       return resolved;
     });
+  };
+
+  const handleSelectProduct = (productType: ProductType, mode: 'custom' | 'template') => {
+    // Revoke all existing image URLs
+    Object.values(config.images).forEach((img) => {
+      if (img.imageUrl) {
+        URL.revokeObjectURL(img.imageUrl);
+      }
+    });
+
+    const pc = getProductConfig(productType);
+    setConfig(prev => ({
+      ...prev,
+      productType,
+      mode,
+      templateId: pc.defaultTemplateId,
+      matColorId: pc.defaultMatColorId,
+      layoutId: 'single-center',
+      images: {}
+    }));
+    setView('customize');
   };
 
   const [activeSlotId, setActiveSlotId] = useState<string | null>(null);
@@ -160,15 +181,7 @@ export default function Home() {
               เลือกสรรสไตล์และลวดลายสำเร็จรูปสุดพรีเมียม หรือเลือกจัดวางรูปภาพด้วยตัวคุณเองอย่างอิสระ
             </p>
             <button
-              onClick={() => {
-                setConfig(prev => ({
-                  ...prev,
-                  productType: 'anniversary-card',
-                  mode: 'custom',
-                  layoutId: 'single-center'
-                }));
-                setView('customize');
-              }}
+              onClick={() => handleSelectProduct('anniversary-card', 'custom')}
               className="bg-[#5C4033] hover:bg-[#3D2B1F] text-white font-semibold py-3 px-8 rounded-xl transition shadow-md hover:shadow-lg transform cursor-pointer text-sm"
             >
               เริ่มต้นออกแบบกรอบรูป
@@ -185,19 +198,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto w-full">
               {/* Cute Fabric Card */}
               <div
-                onClick={() => {
-                  const pc = getProductConfig('cute-fabric');
-                  setConfig(prev => ({
-                    ...prev,
-                    productType: 'cute-fabric',
-                    mode: 'template',
-                    templateId: pc.defaultTemplateId,
-                    matColorId: pc.defaultMatColorId,
-                    layoutId: 'single-center',
-                    images: {}
-                  }));
-                  setView('customize');
-                }}
+                onClick={() => handleSelectProduct('cute-fabric', 'template')}
                 className="group bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col h-full cursor-pointer"
               >
                 <div className="aspect-[2/3] w-full bg-stone-50 relative flex items-center justify-center border-b border-stone-100 p-4 overflow-hidden">
@@ -225,19 +226,7 @@ export default function Home() {
 
               {/* Vintage Lace Card */}
               <div
-                onClick={() => {
-                  const pc = getProductConfig('vintage-lace');
-                  setConfig(prev => ({
-                    ...prev,
-                    productType: 'vintage-lace',
-                    mode: 'template',
-                    templateId: pc.defaultTemplateId,
-                    matColorId: pc.defaultMatColorId,
-                    layoutId: 'single-center',
-                    images: {}
-                  }));
-                  setView('customize');
-                }}
+                onClick={() => handleSelectProduct('vintage-lace', 'template')}
                 className="group bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col h-full cursor-pointer"
               >
                 <div className="aspect-[2/3] w-full bg-stone-50 relative flex items-center justify-center border-b border-stone-100 p-4 overflow-hidden">
@@ -265,19 +254,7 @@ export default function Home() {
 
               {/* Anniversary Playing Cards / Custom Card */}
               <div
-                onClick={() => {
-                  const pc = getProductConfig('anniversary-card');
-                  setConfig(prev => ({
-                    ...prev,
-                    productType: 'anniversary-card',
-                    mode: 'template',
-                    templateId: pc.defaultTemplateId,
-                    matColorId: pc.defaultMatColorId,
-                    layoutId: 'single-center',
-                    images: {}
-                  }));
-                  setView('customize');
-                }}
+                onClick={() => handleSelectProduct('anniversary-card', 'template')}
                 className="group bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col h-full cursor-pointer"
               >
                 <div className="aspect-[2/3] w-full bg-stone-50 relative flex items-center justify-center border-b border-stone-100 p-4 overflow-hidden">

@@ -180,10 +180,12 @@ export default function FrameCanvas({
           if (img && imgState) {
             ctx.save();
 
-            // Bevel Inner White Cut around photo
-            ctx.strokeStyle = '#ffffff';
-            ctx.lineWidth = 2 * scaleFactor;
-            ctx.strokeRect(slotX, slotY, slotW, slotH);
+            // Bevel Inner White Cut around photo (only in custom mode)
+            if (config.mode === 'custom') {
+              ctx.strokeStyle = '#ffffff';
+              ctx.lineWidth = 2 * scaleFactor;
+              ctx.strokeRect(slotX, slotY, slotW, slotH);
+            }
 
             // Apply clipping path to crop image inside slot
             ctx.beginPath();
@@ -203,18 +205,20 @@ export default function FrameCanvas({
 
             ctx.drawImage(img, -scaleWidth / 2, -scaleHeight / 2, scaleWidth, scaleHeight);
 
-            // Inner Bevel Shadow over the image
+            // Inner Bevel Shadow over the image (only in custom mode)
             ctx.restore();
-            ctx.save();
-            ctx.beginPath();
-            ctx.rect(slotX, slotY, slotW, slotH);
-            ctx.clip();
-            ctx.shadowColor = 'rgba(0,0,0,0.3)';
-            ctx.shadowBlur = 6 * scaleFactor;
-            ctx.strokeStyle = 'rgba(0,0,0,0.5)';
-            ctx.lineWidth = 4 * scaleFactor;
-            ctx.strokeRect(slotX, slotY, slotW, slotH);
-            ctx.restore();
+            if (config.mode === 'custom') {
+              ctx.save();
+              ctx.beginPath();
+              ctx.rect(slotX, slotY, slotW, slotH);
+              ctx.clip();
+              ctx.shadowColor = 'rgba(0,0,0,0.3)';
+              ctx.shadowBlur = 6 * scaleFactor;
+              ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+              ctx.lineWidth = 4 * scaleFactor;
+              ctx.strokeRect(slotX, slotY, slotW, slotH);
+              ctx.restore();
+            }
           } else {
             // Placeholder grey slot
             ctx.fillStyle = '#e5e5e5';

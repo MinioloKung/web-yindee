@@ -65,6 +65,21 @@ export const PRESET_TEMPLATES: PresetTemplate[] = [
       { id: 'slot-8', x: 69.3, y: 66.4, width: 17.3, height: 17.1 },
     ]
   },
+    {
+    id: 'temp-cardegg',
+    name: 'Aniversary Egg',
+    imageUrl: '/templates/CardEgg.png',
+    slots: [
+      { id: 'slot-1', x: 13.25, y: 16.3, width: 17.5, height: 17.2 },
+      { id: 'slot-2', x: 41.3, y: 16.4, width: 17.3, height: 17 },
+      { id: 'slot-3', x: 69.25, y: 16.38, width: 17.416, height: 17.16 },
+      { id: 'slot-4', x: 13.41, y: 41.3, width: 17.3, height: 17.05 },
+      { id: 'slot-5', x: 69.25, y: 41.3, width: 17.1, height: 17.05 },
+      { id: 'slot-6', x: 13.3, y: 66.4, width: 17.3, height: 17.1 },
+      { id: 'slot-7', x: 41.3, y: 66.4, width: 17.3, height: 17.1 },
+      { id: 'slot-8', x: 69.3, y: 66.4, width: 17.3, height: 17.1 },
+    ]
+  },
   {
     id: 'temp-polaroid',
     name: 'โพลารอยด์วินเทจ',

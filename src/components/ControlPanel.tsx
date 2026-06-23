@@ -114,7 +114,7 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
           <label className="text-xs font-semibold uppercase tracking-wider text-stone-700 flex items-center gap-2 mb-3">
             เลือกดีไซน์เทมเพลต
           </label>
-          <div className="grid grid-cols-1 gap-3">
+          <div className="grid grid-cols-1 gap-3 mb-6">
             {PRESET_TEMPLATES
               .filter(temp => productConfig.allowedTemplateIds.includes(temp.id))
               .map(temp => (
@@ -133,7 +133,25 @@ export default function ControlPanel({ config, setConfig, activeSlotId, onUpload
                 </button>
               ))}
           </div>
+
+          <div>
+            <label className="text-xs font-semibold uppercase tracking-wider text-stone-700 flex items-center gap-2 mb-3">
+              สีกรอบนอก
+            </label>
+            <div className="flex gap-2">
+              {FRAME_STYLES.map(frame => (
+                <button
+                  key={frame.id}
+                  onClick={() => handleFrameChange(frame.id)}
+                  className={`flex-1 py-2 px-3 text-xs rounded-xl border text-center transition cursor-pointer ${config.frameStyleId === frame.id ? 'border-[#5C4033] bg-[#5C4033]/10 text-[#5C4033] font-semibold' : 'border-stone-200 bg-white text-stone-700 hover:border-stone-300'}`}
+                >
+                  {frame.name}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
+        
       )}
 
       {/* Upload & Alignment Area */}

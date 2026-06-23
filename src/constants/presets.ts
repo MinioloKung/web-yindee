@@ -96,5 +96,21 @@ export const PRESET_TEMPLATES: PresetTemplate[] = [
       { id: 'slot-1', x: 10, y: 20, width: 38, height: 55 },
       { id: 'slot-2', x: 52, y: 20, width: 38, height: 55 }
     ]
+  },
+  {
+    id: 'temp-cutefabric',
+    name: 'ดีไซน์ Cute หวานละมุน พื้นหลังผ้า',
+    imageUrl: '/templates/cute-fabric.svg',
+    slots: [
+      { id: 'slot-1', x: 10, y: 10, width: 80, height: 75 }
+    ]
+  },
+  {
+    id: 'temp-lacevintage',
+    name: 'ลายลูกไม้วินเทจ พื้นหลังผ้ากระสอบ',
+    imageUrl: '/templates/lace-vintage.svg',
+    slots: [
+      { id: 'slot-1', x: 12, y: 12, width: 76, height: 70 }
+    ]
   }
 ];
